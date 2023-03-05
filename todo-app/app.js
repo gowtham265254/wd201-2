@@ -7,16 +7,17 @@ const { response } = require("express");
 
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname + "/public")));
+app.use(express.static(path.join(__dirname + "public")));
+// app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
-  const allTodo = await Todo.getTodos();
+  const allTodos = await Todo.getTodos();
   if (req.accepts("html")) {
     res.render("index", {
-      allTodo,
+      allTodos,
     });
   } else {
-    res.json(allTodo);
+    res.json(allTodos);
   }
 });
 
@@ -57,11 +58,10 @@ app.put("/todos/:id/markAsCompleted", async (req, res) => {
   }
 });
 
-// eslint-disable-next-line no-unused-vars
-app.delete("/todos/:id", async (request, response) => {
-  console.log("We have to delete a Todo: ", request.params.id);
-  const delete_item = await Todo.destroy({ where: { id: request.params.id } });
-  response.send(delete_item ? true : false);
+app.delete("/todos/:id", async (req, res) => {
+  console.log("We have to delete a Todo with ID: ", req.params.id);
+  const delete_Row = await Todo.destroy({ where: { id: req.params.id } });
+  res.send(delete_Row ? true : false);
 });
 
 module.exports = app;
