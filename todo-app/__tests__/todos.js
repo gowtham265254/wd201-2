@@ -47,7 +47,7 @@ describe("Todo test suite ", () => {
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(gropuedTodosResponse.text);
     const dueTodayCount = parsedGroupedResponse.length;
-    const latestTodo = parsedGroupedResponse[dueTodayCount - 1];
+    const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
     const status = latestTodo.completed ? false : true;
     res = await agent.get("/");
     csrfToken = extractCsrfToken(res);
@@ -75,7 +75,7 @@ describe("Todo test suite ", () => {
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(gropuedTodosResponse.text);
     const dueTodayCount = parsedGroupedResponse.length;
-    const latestTodo = parsedGroupedResponse[dueTodayCount - 1];
+    const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
 
     res = await agent.get("/");
     csrfToken = extractCsrfToken(res);
