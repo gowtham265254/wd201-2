@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+* eslint-disable no-undef */
 const request = require("supertest");
 var cheerio = require("cheerio");
 const db = require("../models/index");
@@ -46,8 +46,8 @@ describe("Todo test suite ", () => {
       .get("/")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(gropuedTodosResponse.text);
-    const dueTodayCount = parsedGroupedResponse.dueToday.length;
-    const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
+    const dueTodayCount = parsedGroupedResponse.length;
+    const latestTodo = parsedGroupedResponse[dueTodayCount - 1];
     const status = latestTodo.completed ? false : true;
     res = await agent.get("/");
     csrfToken = extractCsrfToken(res);
@@ -74,8 +74,8 @@ describe("Todo test suite ", () => {
       .get("/")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(gropuedTodosResponse.text);
-    const dueTodayCount = parsedGroupedResponse.dueToday.length;
-    const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
+    const dueTodayCount = parsedGroupedResponse.length;
+    const latestTodo = parsedGroupedResponse[dueTodayCount - 1];
 
     res = await agent.get("/");
     csrfToken = extractCsrfToken(res);
