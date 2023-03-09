@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require("express");
 const app = express();
 var csrf = require("tiny-csrf");
@@ -6,7 +7,6 @@ var cookieParser = require("cookie-parser");
 app.use(bodyParser.json());
 const path = require("path");
 const { Todo } = require("./models");
-// eslint-disable-next-line no-unused-vars
 const todo = require("./models/todo");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
@@ -59,7 +59,6 @@ app.get("/todos/:id", async function (request, response) {
 app.post("/todos", async (request, response) => {
   console.log("creating new todo", request.body);
   try {
-    // eslint-disable-next-line no-unused-vars
     await Todo.addTodo({
       title: request.body.title,
       dueDate: request.body.dueDate,
