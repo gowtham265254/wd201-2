@@ -29,7 +29,7 @@ describe("Todo test suite ", () => {
       completed: false,
       _csrf: csrfToken,
     });
-    expect(response.statusCode).toBe(302); //http status code
+    expect(response.statusCode).toBe(302);
   });
 
   test("Mark todo as completed (Updating Todo)", async () => {
@@ -45,13 +45,13 @@ describe("Todo test suite ", () => {
       .get("/")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(gropuedTodosResponse.text);
-    const dueTodayCount = parsedGroupedResponse.dueToday;
+    const dueTodayCount = parsedGroupedResponse.dueToday.length;
     const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
     const status = latestTodo.completed ? false : true;
     res = await agent.get("/");
     csrfToken = extractCsrfToken(res);
 
-    const response = await agent.put(`todos/${latestTodo.id}`).send({
+    const response = await agent.put(`todos/${latestTodo.id}/markAsComleted`).send({
       _csrf: csrfToken,
       completed: status,
     });
@@ -73,7 +73,7 @@ describe("Todo test suite ", () => {
       .get("/")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(gropuedTodosResponse.text);
-    const dueTodayCount = parsedGroupedResponse.dueToday;
+    const dueTodayCount = parsedGroupedResponse.dueToday.length;
     const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
 
     res = await agent.get("/");
