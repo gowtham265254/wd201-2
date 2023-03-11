@@ -38,7 +38,7 @@ describe("Todo Application", function () {
     expect(response.statusCode).toBe(302);
   });
 
-  test("Marks a todo with the given ID as complete", async () => {
+  test("Marks a todo complete with the given ID", async () => {
     let res = await agent.get("/");
     let csrfToken = extractCSRFToken(res.text);
     await agent.post("/todos").send({
@@ -56,12 +56,12 @@ describe("Todo Application", function () {
     res = await agent.get("/");
     csrfToken = extractCSRFToken(res.text);
 
-    const markCompleteResponse = await agent.put(`/todos/${lastItem.id}`).send({
+    const markComplete = await agent.put(`/todos/${lastItem.id}`).send({
       _csrf: csrfToken,
       completed: true,
     });
 
-    const parsedUpdateResponse = JSON.parse(markCompleteResponse.text);
+    const parsedUpdateResponse = JSON.parse(markComplete.text);
     expect(parsedUpdateResponse.completed).toBe(true);
   });
 
@@ -75,16 +75,17 @@ describe("Todo Application", function () {
       _csrf: csrfToken,
     });
 
-    const response = await agent.get("/todos");
-    const parsedResponses = JSON.parse(response.text);
+    const getresponse = await agent.get("/todos");
+    const parsedResponses = JSON.parse(getresponse.text);
     const todoID = parsedResponses[parsedResponses.length - 1].id;
 
     res = await agent.get("/");
     csrfToken = extractCSRFToken(res.text);
 
-    const deleteRes = await agent.delete(`/todos/${todoID}`).send({
+    const deleteTodo = await agent.delete(`/todos/${todoID}`).send({
       _csrf: csrfToken,
     });
-    expect(deleteRes.statusCode).toBe(200);
+    expect(deleteTodo.statusCode).toBe(200);
   });
 });
+
